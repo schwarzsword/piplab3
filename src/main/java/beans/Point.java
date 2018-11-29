@@ -1,37 +1,48 @@
 package beans;
 
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
+import lombok.Data;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
-@ManagedBean(name = "point")
-@ApplicationScoped
+@Entity
+@Data
 public class Point implements Serializable {
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public double getR() {
-        return r;
-    }
-
-    public void setR(double r) {
-        this.r = r;
-    }
-
-    private double x = 1.1;
-    private double y = 2.0;
+    @Basic
+    @Column(name = "X", nullable = false)
+    private double x;
+    @Basic
+    @Column(name = "Y", nullable = false)
+    private double y;
+    @Basic
+    @Column(name = "R", nullable = false)
     private double r;
+    @Basic
+    @Column(name = "ENTERING", nullable = false)
+    private String entering;
+    @Id
+    @Column(name = "ID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+//
+//    public void set1() {
+//        r = 1.0;
+//    }
+//
+//    public void set2() {
+//        r = 2.0;
+//    }
+//
+//    public void set3() {
+//        r = 3.0;
+//    }
+//
+//    public void set4() {
+//        r = 4.0;
+//    }
+//
+//    public void set5() {
+//        r = 5.0;
+//    }
 }

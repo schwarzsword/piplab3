@@ -1,23 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
 <h:head>
     <title>Lab3</title>
+    <h:outputStylesheet library="css" name="mainStyle.css"/>
+    <h:outputScript library="js" name="mainScript.js"/>
 </h:head>
 <h:body>
-<h:form>
-    Введите Х:<h:inputText value="#{point.x}" id="valueX" label="X">
+    <h:panelGroup>
+        <h:form id="pointForm" class="pointForm">
+            <div>
+                <h:outputLabel for="valueX" value="Введите Х:"/>
+                <h:inputText value="#{pointList.point.x}" id="valueX" label="X"
+                             validatorMessage="Введите число от -3 до 5" required="true">
+                    <f:validateDoubleRange minimum="-3.0" maximum="5.0"/>
+                    <f:validateLength minimum="1" maximum="8"/>
+                </h:inputText>
+            </div>
+            <div>
+                <h:selectOneMenu value="#{pointList.point.y}" id="valueY" required="true">
+                    <f:selectItem itemValue="-4" itemLabel="-4"/>
+                    <f:selectItem itemValue="-3" itemLabel="-3"/>
+                    <f:selectItem itemValue="-2" itemLabel="-2"/>
+                    <f:selectItem itemValue="-1" itemLabel="-1"/>
+                    <f:selectItem itemValue="0" itemLabel="0"/>
+                    <f:selectItem itemValue="1" itemLabel="1"/>
+                    <f:selectItem itemValue="2" itemLabel="2"/>
+                    <f:selectItem itemValue="3" itemLabel="3"/>
+                    <f:selectItem itemValue="4" itemLabel="4"/>
+                </h:selectOneMenu></div>
+            <div>
+                <h:inputText id="valueR" value="#{pointList.point.r}" style="display: none"/>
+                <h:commandLink value="Установить радиус 1" action="#{pointList.addPoint(1)}">
+                    <f:ajax execute="pointForm" render="pointTable"/>
+                </h:commandLink>
 
-    </h:inputText>
-    <br/>
-    <h:selectOneMenu>
-    </h:selectOneMenu>
+                <h:commandLink value="Установить радиус 2" action="#{pointList.addPoint(2)}"/>
 
-    <h:commandLink></h:commandLink>
-</h:form>
+                <h:commandLink value="Установить радиус 3" action="#{pointList.addPoint(3)}"/>
+
+                <h:commandLink value="Установить радиус 4" action="#{pointList.addPoint(4)}"/>
+
+                <h:commandLink value="Установить радиус 5" action="#{pointList.addPoint(5)}"/>
+            </div>
+        </h:form>
+        <canvas height="400" width="400" id="graph" name="graph" onclick="interract()"
+                class="graph"/>
+    </h:panelGroup>
+    <h:panelGroup id="pointTable" class="pointTable">
+        <h:dataTable value="#{pointList.points}" var="tempPoint">
+            <h:column>
+                <f:facet name="header">Координата X</f:facet>
+                #{tempPoint.x}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Координата Y</f:facet>
+                #{tempPoint.y}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Радиус R</f:facet>
+                #{tempPoint.r}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Попадание</f:facet>
+                #{tempPoint.entering}
+            </h:column>
+        </h:dataTable>
+    </h:panelGroup>
+    <h:form id="redirect">
+        <h:commandLink action="index" value="Перейти на стартовую страницу"/>
+    </h:form>
 </h:body>
 </html>

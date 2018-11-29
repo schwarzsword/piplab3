@@ -19,8 +19,8 @@ public class Clock implements Serializable {
         date = this.date;
     }
 
-    public void refresh(){
-      date = new Date(date.getTime()+8000);
+    public void refresh() {
+        date = new Date(date.getTime() + 8000);
     }
 
     private Date date = new Date();

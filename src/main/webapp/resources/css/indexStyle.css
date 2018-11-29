@@ -1,0 +1,11 @@
+body{
+    background: darkturquoise;
+}
+
+.container{
+    background: white;
+    border: green 2px solid;
+    width: auto;
+    border-radius: 10px;
+
+}
