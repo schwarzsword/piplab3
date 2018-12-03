@@ -4,26 +4,33 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui"
 >
 <h:head>
     <title>Lab3</title>
     <h:outputStylesheet library="css" name="mainStyle.css"/>
     <h:outputScript library="js" name="mainScript.js"/>
 </h:head>
-<h:body>
-    <h:panelGroup>
-        <h:form id="pointForm" class="pointForm">
+<h:body onload="drawAllPoints()">
+    <h:panelGroup id="forma">
+        <h:form id="pointForm" class="pointForm"
+                style="background: #0d467a;    border-radius: 15px;    border: 3px darkturquoise solid;    opacity: .55;
+                 margin: 20px auto;    text-align: center;    font-size: 28px;    width: 900px;    padding: 30px;">
             <div>
                 <h:outputLabel for="valueX" value="Введите Х:"/>
-                <h:inputText value="#{pointList.point.x}" id="valueX" label="X"
-                             validatorMessage="Введите число от -3 до 5" required="true">
-                    <f:validateDoubleRange minimum="-3.0" maximum="5.0"/>
-                    <f:validateLength minimum="1" maximum="8"/>
+                <h:inputText value="#{pointList.x}" id="valueX" label="X"
+                             required="true" maxlength="8" validatorMessage="Введите Х в промежутке [-3,5]"
+                             style="    width: 150px;    height: 26px;    font-size: 22px;    border-radius: 8px;    margin: 10px auto;">
+                    <f:validateDoubleRange maximum="5.000000001" minimum="-3.000000001"/>
                 </h:inputText>
-            </div>
+                <p:message for="valueX"/></div>
             <div>
-                <h:selectOneMenu value="#{pointList.point.y}" id="valueY" required="true">
+                <h:inputText id="truevalueY" value="#{pointList.y}" style="display: none; visibility:hidden">
+                    <f:ajax event="change" execute="truevalueY"/>
+                </h:inputText>
+                <h:outputLabel for="valueY" value="Выберите Y:"/>
+                <h:selectOneMenu value="truevalueY" id="valueY" required="true"
+                                 style="width: 150px;    height: 32px;    font-size: 22px;    border-radius: 8px; margin: 10px auto">
                     <f:selectItem itemValue="-4" itemLabel="-4"/>
                     <f:selectItem itemValue="-3" itemLabel="-3"/>
                     <f:selectItem itemValue="-2" itemLabel="-2"/>
@@ -35,25 +42,36 @@
                     <f:selectItem itemValue="4" itemLabel="4"/>
                 </h:selectOneMenu></div>
             <div>
-                <h:inputText id="valueR" value="#{pointList.point.r}" style="display: none"/>
-                <h:commandLink value="Установить радиус 1" action="#{pointList.addPoint(1)}">
-                    <f:ajax execute="pointForm" render="pointTable"/>
-                </h:commandLink>
+                <h:inputText id="valueR" value="#{pointList.r}" style="display: none"/>
+                <p:commandLink id="r1" value="Установить радиус 1" action="#{pointList.addPoint(1)}"
+                               update="pointTable valueR pointForm"/>
+                <br/>
 
-                <h:commandLink value="Установить радиус 2" action="#{pointList.addPoint(2)}"/>
+                <p:commandLink id="r2" value="Установить радиус 2" action="#{pointList.addPoint(2)}"
+                               update="pointTable valueR pointForm"/>
+                <br/>
 
-                <h:commandLink value="Установить радиус 3" action="#{pointList.addPoint(3)}"/>
+                <p:commandLink id="r3" value="Установить радиус 3" action="#{pointList.addPoint(3)}"
+                               update="pointTable valueR pointForm"/>
+                <br/>
 
-                <h:commandLink value="Установить радиус 4" action="#{pointList.addPoint(4)}"/>
+                <p:commandLink id="r4" value="Установить радиус 4" action="#{pointList.addPoint(4)}"
+                               update="pointTable valueR pointForm"/>
+                <br/>
 
-                <h:commandLink value="Установить радиус 5" action="#{pointList.addPoint(5)}"/>
+                <p:commandLink id="r5" value="Установить радиус 5" action="#{pointList.addPoint(5)}"
+                               update="pointTable valueR pointForm"/>
+                <br/>
+
             </div>
         </h:form>
-        <canvas height="400" width="400" id="graph" name="graph" onclick="interract()"
-                class="graph"/>
+            <canvas height="400" width="400" id="graph" name="graph" onclick="interract()"
+                    class="graph"/>
     </h:panelGroup>
-    <h:panelGroup id="pointTable" class="pointTable">
-        <h:dataTable value="#{pointList.points}" var="tempPoint">
+    <h:panelGroup id="pointTable" class="pointTable container">
+
+        <h:dataTable value="#{pointList.points}" var="tempPoint" id="pointTab" style="    color: #eba1f4;    background: #0d467a;    border-radius: 15px;
+         border: 3px darkturquoise solid;    opacity: .55;    margin: 20px auto;    text-align: center;    font-size: 28px;    width: 800px;    padding: 30px;">
             <h:column>
                 <f:facet name="header">Координата X</f:facet>
                 #{tempPoint.x}
@@ -73,9 +91,12 @@
                 #{tempPoint.entering}
             </h:column>
         </h:dataTable>
+        <h:outputScript>
+            drawAllPoints();
+        </h:outputScript>
     </h:panelGroup>
     <h:form id="redirect">
-        <h:commandLink action="index" value="Перейти на стартовую страницу"/>
+        <h:commandLink action="index" value="Перейти на стартовую страницу" style="margin-left: 76%;    position: fixed;    bottom: 10px;"/>
     </h:form>
 </h:body>
 </html>

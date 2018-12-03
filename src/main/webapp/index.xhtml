@@ -9,14 +9,14 @@
     <h:outputStylesheet library="css" name="indexStyle.css"/>
 </h:head>
 <h:body>
-    <div class="container header">
-        <span id="group"> Группа P3211</span>
-        <span id="name"> Черный Кирилл</span>
-        <span id="variant"> Вариант 8323</span>
-    </div>
-    <h:form styleClass="form">
-        <h:commandLink action="main" value="Перейти на основную страницу"/> <br/>
-        <h:outputText id="time" value="#{clock.date}"/>
+    <span id="group" class="letter"> Группа P3211</span>
+    <span id="name" class="letter"> Черный Кирилл</span>
+    <span id="variant" class="letter"> Вариант 8323</span>
+    <div class="container header"/>
+    <h:outputText id="time" value="#{clock.date}"
+                  style="position:relative; font-size: 80px;   color: #f4633f;  padding: 20px; top: 5.3em;  z-index: 2;  left: 6.95em;"/>
+    <h:form styleClass="form container" id="forma">
+        <h:commandLink action="main" id="linka" value="Перейти на основную страницу"/> <br/>
         <p:poll interval="8" listener="#{clock.refresh}" update="time"/>
     </h:form>
 </h:body>

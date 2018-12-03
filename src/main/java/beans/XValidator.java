@@ -7,7 +7,7 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-@FacesValidator("XValidator")
+@FacesValidator("xValidator")
 public class XValidator implements Validator {
 
     @Override
@@ -16,7 +16,7 @@ public class XValidator implements Validator {
         String toValidate = value.toString().replaceAll(",", ".");
         try {
             double x = Double.parseDouble(toValidate);
-            if (x < -3 || x > 5) {
+            if (x < -3 || x > 5 ) {
                 FacesMessage msg = new FacesMessage("Неверное значение Х", "Введите Х в интервале от -3 до 5");
                 msg.setSeverity(FacesMessage.SEVERITY_ERROR);
                 throw new ValidatorException(msg);

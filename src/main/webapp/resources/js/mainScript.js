@@ -1,12 +1,10 @@
-
 function draw(r) {
     var ctx = document.getElementById("graph").getContext("2d");
-
     ctx.clearRect(0, 0, 400, 400);
 
     ctx.beginPath();
     ctx.moveTo(200, 200);
-    ctx.arc(200, 200, 140, 0, Math.PI / 2, true);
+    ctx.arc(200, 200, 140, 0, Math.PI * 3 / 2, true);
     ctx.closePath();
     ctx.strokeStyle = "dodgerblue";
     ctx.fillStyle = "dodgerblue";
@@ -79,7 +77,7 @@ function draw(r) {
     ctx.lineTo(205, 340);
 
     ctx.font = "14px Times New Roman";
-    if (r == 0) {
+    if (r === 0 || r !== r) {
         ctx.fillText("R", 340, 215);
         ctx.fillText("R/2", 270, 215);
 
@@ -115,77 +113,34 @@ function draw(r) {
     ctx.fillText('X', 370, 225);
 }
 
-function drawPoint(x, y, r) {
+function drawPoint(x, y, r, ent) {
     var ctx = document.getElementById("graph").getContext("2d");
 
-    if (r < 1 || r > 4) {
+    if (r < 1 || r > 5) {
     }
     else {
-        if (Math.abs(x / r) > 1.2 || Math.abs(y / r) > 1.2) {
+        if (Math.abs(x / r) > 1.3 || Math.abs(y / r) > 1.3) {
             ctx.font = "14px Times New Roman";
             ctx.fillText('Some of points are out of graph', 130, 390);
         } else {
             ctx.beginPath();
             ctx.arc(Math.round(200 + ((x / r) * 140)), Math.round(200 - ((y / r) * 140)), 3, 0, Math.PI * 2);
             ctx.closePath();
-            ctx.strokeStyle = "red";
-            ctx.fillStyle = "red";
-            ctx.fill();
-            ctx.stroke();
+            if (ent === 'Попал' ) {
+                ctx.strokeStyle = "#f4fca1";
+                ctx.fillStyle = "#f4fca1";
+                ctx.fill();
+                ctx.stroke();
+            }
+            else {
+                ctx.strokeStyle = "#d260f2";
+                ctx.fillStyle = "#d260f2";
+                ctx.fill();
+                ctx.stroke();
+            }
+
         }
     }
-}
-
-function easter(canv) {
-    document.getElementById("sub").disabled = true;
-    document.body.style.backgroundImage = "url(\"img/creepy.png\")";
-    draw(canv, 666);
-    pentagramm(canv);
-    dot(canv, 200, 300);
-    dot(canv, 106, 235);
-    dot(canv, 141, 119);
-    dot(canv, 258, 119);
-    dot(canv, 293, 235);
-    circle(canv);
-}
-
-function dot(x, y) {
-    var ctx = document.getElementById("graph").getContext("2d");
-    ctx.beginPath();
-    ctx.arc(x, y, 3, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.strokeStyle = "crimson";
-    ctx.fillStyle = "crimson";
-    ctx.fill();
-    ctx.stroke();
-}
-
-function circle() {
-    var ctx = document.getElementById("graph").getContext("2d");
-    ctx.beginPath();
-    ctx.arc(200, 200, 100, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.strokeStyle = "crimson";
-    ctx.fillStyle = "crimson";
-    ctx.lineWidth = 4;
-    ctx.stroke();
-}
-
-function pentagramm() {
-    var ctx = document.getElementById("graph").getContext("2d");
-    ctx.beginPath();
-    ctx.moveTo(200, 300);
-    ctx.lineTo(141, 119);
-    ctx.lineTo(293, 235);
-    ctx.lineTo(106, 235);
-    ctx.lineTo(258, 119);
-    ctx.lineTo(200, 300);
-    ctx.closePath();
-    ctx.strokeStyle = "crimson";
-    ctx.fillStyle = "crimson";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
 }
 
 function getMousePos(canvas, evt) {
@@ -200,24 +155,58 @@ function interract() {
     var canvas = document.getElementById("graph");
     var event = window.event;
     var pos = getMousePos(canvas, event);
-    var e = document.getElementById('form');
-    var r = e.R.value;
-    var newR = r.replace(/,/g, '.');
-    document.getElementById('R').value = newR;
-    r = e.R.value;
+    var r = Math.round(document.getElementById("pointForm:valueR").value);
 
-    var arrr = r.split('');
+    var x = Math.round(((pos.x - 200) * r) * 10 / 140) / 10;
+    var y = Math.round(((-pos.y + 200) * r) * 10 / 140) / 10;
+    document.getElementById("pointForm:valueX").value = x;
+    document.getElementById("pointForm:truevalueY").value = y;
+    switch (r) {
+        case 1:
+            document.getElementById("pointForm:r1").click();
+            break;
+        case 2:
+            document.getElementById("pointForm:r2").click();
+            break;
+        case 3:
+            document.getElementById("pointForm:r3").click();
+            break;
+        case 4:
+            document.getElementById("pointForm:r4").click();
+            break;
+        case 5:
+            document.getElementById("pointForm:r5").click();
+            break;
+        default:
+            document.getElementById("pointForm:r5").click();
+    }
 
-    var msgr = '';
+}
 
-    if (isNaN(r) || r < 1 || r > 4 || r === " " || arrr[0] === '.' || r === '') {
-        msgr += 'Input number between 1 and 4';
-        document.getElementById('errR').style.visibility = 'visible';
-        document.getElementById('errR').innerHTML = msgr;
-    } else {
-        var x = Math.round(((pos.x - 200) * r) / 140 * 10) / 10;
-        var y = Math.round(((-pos.y + 200) * r) / 140 * 10) / 10;
-        document.getElementById('trueX').value = x;
-        e.Y.value = y;
+function drawAllPoints() {
+    var r = Math.round(document.getElementById("pointForm:valueR").value);
+    var x, y, ent;
+    var counter = 0;
+    var table = document.getElementById('pointTab');
+    draw(r);
+    if (!(table === null)) {
+        table.querySelectorAll('td').forEach(function (e) {
+            switch (counter) {
+                case 0:
+                    x = e.innerHTML;
+                    break;
+                case 1:
+                    y = e.innerHTML;
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    ent = e.innerText;
+                    drawPoint(x, y, r, ent);
+                    counter -= 4;
+                    break;
+            }
+            counter++;
+        });
     }
 }

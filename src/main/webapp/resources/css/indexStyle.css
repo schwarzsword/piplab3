@@ -1,11 +1,52 @@
 body{
-    background: darkturquoise;
+    background-image: url(#{resource[ 'img/comet.jpg' ]});
 }
 
 .container{
-    background: white;
-    border: green 2px solid;
+    background: darkviolet;
+    border-radius: 15px;
+    border: 3px navy solid;
+    opacity: .52;
+    height: 60px;
     width: auto;
-    border-radius: 10px;
+    margin: 20px auto;
+}
 
+.letter{
+    margin: 15px;
+    font-size: 32px;
+    color: aqua;
+    margin-top: 12px;
+    position: relative;
+}
+#variant{
+    float: right;
+}
+#group{
+   float: left;
+}
+#name{
+    margin-left: 32%;
+    float: left;
+}
+#linka{
+    margin: 10px auto;
+    font-size: 20px;
+    margin-top: 30px;
+    color: darkviolet;
+}
+.form{
+    height: 220px;
+    width: 720px;
+    margin-top: 200px;
+    padding: 10px;
+    padding-top: 50px;
+}
+a{
+    outline: 0;
+    color: aqua;
+    text-decoration: none;
+    margin: 50px auto;
+    font-size: 48px;
+    padding: 32px;
 }
